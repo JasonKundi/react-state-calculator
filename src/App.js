@@ -1,74 +1,95 @@
 import "./App.css"
 import { useState } from 'react'
 
-const mathFunctions = {
-  "+": (firstNum, secondNum) => firstNum + secondNum,
-  "-": (firstNum, secondNum) => firstNum - secondNum,
-  "*": (firstNum, secondNum) => firstNum * secondNum,
-  "/": (firstNum, secondNum) => firstNum / secondNum,
+const Operations = {
+  "+": (numOne, numTwo) => numOne + numTwo,
+  "-": (numOne, numTwo) => numOne - numTwo,
+  "*": (numOne, numTwo) => numOne * numTwo,
+  "/": (numOne, numTwo) => numOne / numTwo,
 }
 
-function App() { 
-  const [firstNum, setFirstNum] = useState =(0)
-  const [secondNum, setSecondNum] = useState=(0)
+function App() {
+  const [numOne, setNumOne] = useState("0")
+  const [numTwo, setNumTwo] = useState("0")
+  const [operation, setOperation] = useState("+")
 
-  const numClickLeftConsole = (number) => {
-      setFirstNum(number)
-    }
-  
-  const numClickRightConsole = (number) => {
-    setSecondNum(number)
+  const onButtonOneClick = (digit) => {
+    const updatedNumOne = appendDigit(numOne, digit)
+    setNumOne(updatedNumOne)
   }
-  
-   return ( <div className="calculator">
-        <div className="panel">
-          <p>{firstNum}</p>
-          <div className="numbers">
-            <button onClick ={() =>numClickLeftConsole(1)}>1</button>
-            <button onClick ={() =>numClickLeftConsole(2)}>2</button>
-            <button onClick ={() =>numClickLeftConsole(3)}>3</button>
-            <button onClick ={() =>numClickLeftConsole(4)}>4</button>
-            <button onClick ={() =>numClickLeftConsole(5)}>5</button>
-            <button onClick ={() =>numClickLeftConsole(6)}>6</button>
-            <button onClick ={() =>numClickLeftConsole(7)}>7</button>
-            <button onClick ={() =>numClickLeftConsole(8)}>8</button>
-            <button onClick ={() =>numClickLeftConsole(9)}>9</button>
-            <button onClick ={() =>numClickLeftConsole(0)}>0</button>
-            <button onClick ={() =>setFirstNum(0)}>Clear</button>
-          </div>
-        </div>
-        
-        <div className="panel">
-          <p>+</p>
-          <div className="numbers">
-            <button onClick ={() =>mathFunctions("+")}>+</button>
-            <button onClick ={() =>mathFunctions("-")}>-</button>
-            <button onClick ={() =>mathFunctions("*")}>*</button>
-            <button onClick ={() =>mathFunctions("/")}>÷</button>
-          </div>
-        </div>
 
-        <div className="panel">
-          <p>{secondNum}</p>
-          <div className="numbers">
-            <button onClick ={() =>numClickRightConsole(1)}>1</button>
-            <button onClick ={() =>numClickRightConsole(2)}>2</button>
-            <button onClick ={() =>numClickRightConsole(3)}>3</button>
-            <button onClick ={() =>numClickRightConsole(4)}>4</button>
-            <button onClick ={() =>numClickRightConsole(5)}>5</button>
-            <button onClick ={() =>numClickRightConsole(6)}>6</button>
-            <button onClick ={() =>numClickRightConsole(7)}>7</button>
-            <button onClick ={() =>numClickRightConsole(8)}>8</button>
-            <button onClick ={() =>numClickRightConsole(9)}>9</button>
-            <button onClick ={() =>numClickRightConsole(0)}>0</button>
-            <button onClick ={() =>setSecondNum(0)}>Clear</button>
-          </div>
+  const onButtonTwoClick = (digit) => {
+    const updatedNumTwo = appendDigit(numTwo, digit)
+    setNumTwo(updatedNumTwo)
+  }
+
+  const appendDigit = (existing, digit) => {
+    if (existing === "0") {
+      if (digit === 0) {
+        return existing
+      }
+      return digit
+    }
+    return (existing += digit)
+  }
+
+  const calculate = () => {
+    const op = Operations[operation]
+    return op(Number(numOne), Number(numTwo))
+  }
+
+  const answer = calculate()
+
+  return (
+    <div className="calculator">
+      <div className="panel">
+        <p>{numOne}</p>
+        <div className="numbers">
+          <button onClick={() => onButtonOneClick("1")}>1</button>
+          <button onClick={() => onButtonOneClick("2")}>2</button>
+          <button onClick={() => onButtonOneClick("3")}>3</button>
+          <button onClick={() => onButtonOneClick("4")}>4</button>
+          <button onClick={() => onButtonOneClick("5")}>5</button>
+          <button onClick={() => onButtonOneClick("6")}>6</button>
+          <button onClick={() => onButtonOneClick("7")}>7</button>
+          <button onClick={() => onButtonOneClick("8")}>8</button>
+          <button onClick={() => onButtonOneClick("9")}>9</button>
+          <button onClick={() => onButtonOneClick("0")}>0</button>
+          <button onClick={() => setNumOne("0")}>Clear</button>
         </div>
-        <div className="panel answer">
-          <p>0</p>
+      </div>
+
+      <div className="panel">
+        <p>{operation}</p>
+        <div className="numbers">
+          <button onClick={() => setOperation("+")}>+</button>
+          <button onClick={() => setOperation("-")}>-</button>
+          <button onClick={() => setOperation("*")}>*</button>
+          <button onClick={() => setOperation("/")}>÷</button>
         </div>
+      </div>
+
+      <div className="panel">
+        <p>{numTwo}</p>
+        <div className="numbers">
+          <button onClick={() => onButtonTwoClick("1")}>1</button>
+          <button onClick={() => onButtonTwoClick("2")}>2</button>
+          <button onClick={() => onButtonTwoClick("3")}>3</button>
+          <button onClick={() => onButtonTwoClick("4")}>4</button>
+          <button onClick={() => onButtonTwoClick("5")}>5</button>
+          <button onClick={() => onButtonTwoClick("6")}>6</button>
+          <button onClick={() => onButtonTwoClick("7")}>7</button>
+          <button onClick={() => onButtonTwoClick("8")}>8</button>
+          <button onClick={() => onButtonTwoClick("9")}>9</button>
+          <button onClick={() => onButtonTwoClick("0")}>0</button>
+          <button onClick={() => setNumTwo("0")}>Clear</button>
+        </div>
+      </div>
+
+      <div className="panel answer">
+        <p>{answer}</p>
+      </div>
     </div>
   )
 }
-
 export default App
